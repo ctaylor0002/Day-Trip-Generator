@@ -25,13 +25,13 @@
 
 #startingLocation = "Springfield MA" This is probably unneccessary
 
-
+import random
 locations = ["Boston", "New York City", "Pittsburgh", "Washington DC", "Salem", "Hartford", "Portland"]
-transportation = ["Train", "Plane", "Car", "Bus", "Uber", "Boat"]
+transportation = ["Train", "Plane", "Rental car", "Bus", "Uber"]
 
-#The list of resturants will have a list of lists
+#The list of restaurants will have a list of lists
 #I will add 3 locations to each list. If the user declines all three I will have a basic Fast Food list to accomadate
-resturants = [["Maggiano's Little Italy", "Bostonia Public House", "Boston Sail Loft"],
+restaurants = [["Maggiano's Little Italy", "Bostonia Public House", "Boston Sail Loft"],
                 ["STK Steakhouse Downtown NYC", "Boucherie Union Square", "Le Coucou"],
                 ["Morton's The Steakhouse", "Eddie V's Prime Seafood", "The Capital Grille"],
                 ["Benihana", "Founding Farmers DC", "Estadio"],
@@ -48,3 +48,92 @@ entertainment = [["New England Aquarium", "Museum of Fine Arts", "Fenway Park"],
                     ["Connecticut Science Center", "The Mark Twain House and Museum", "Wadsworth Athenum Museum of Art"],
                     ["Portland Head Light", "Portland Museum of Art", "Peaks Island"]
 ]
+
+def pickedLocation():
+    acceptableLocation = False
+    locationIndex = random.randrange(0,len(locations),1)
+    location = locations[locationIndex]
+    question = input(f"Your picked location for today is {location}. Is it okay? yes/no ")
+    while acceptableLocation == False:
+        if question == 'yes':
+            print(f"Awesome! Hope you have fun at {location}!")
+            acceptableLocation == True
+            return location
+        elif question =='no':
+            locations.pop(locationIndex)
+            restaurants.pop(locationIndex)
+            entertainment.pop(locationIndex)
+            locationIndex = random.randrange(0,len(locations),1)
+            location = locations[locationIndex]
+            question = input(f"How about {location}? yes/no ")
+        else:
+            print('Invalid response. Try again.')
+
+def pickedTransportation():
+    acceptableTransportation = False
+    transportationIndex = random.randrange(0,len(transportation),1)
+    transportationChk = transportation[transportationIndex]
+    question = input(f"Your picked method of transportation for today is {transportationChk}. Is this okay? yes/no ")
+
+    while acceptableTransportation == False:
+        if question == 'yes':
+            print(f"Fantastic! Enjoy your {transportationChk} ride!")
+            return transportationChk
+        elif question == 'no': 
+            transportation.remove(transportationChk)
+            transportationIndex = random.randrange(0,len(transportation),1)
+            transportationChk = transportation[transportationIndex]
+            question = input(f"How about taking a {transportationChk}? yes/no ")
+        else:
+             print('Invalid respons. Try again.')
+
+
+def pickedEntertainment(tripLocation):
+    srchIndex = locations.index(tripLocation)
+    entertainmentOptions = entertainment[srchIndex]
+    entertainmentOption = random.randrange(0,len(entertainmentOptions),1)
+    theEntertainmentOption = entertainmentOptions[entertainmentOption]
+
+    acceptableEntertainment = False
+    question = input(f"Your picked entertainment for the day is touring {theEntertainmentOption}. Is this okay? yes/no ")
+
+    while acceptableEntertainment == False:
+        if question == 'yes':
+            print(f"Perfect! Enjoy touring {theEntertainmentOption}!")
+            return theEntertainmentOption
+        elif question == 'no':
+            entertainmentOptions.remove(theEntertainmentOption)
+            srchIndex = random.randrange(0,len(entertainmentOptions),1)
+            theEntertainmentOption = entertainmentOptions[srchIndex]
+            question = input(f"How about touring {theEntertainmentOption}? yes/no ")
+        else:
+            print("Invalid Response. Try again,")
+
+        
+def pickedRestaurant(tripLocation):
+    srchIndex = locations.index(tripLocation)
+    restaurantOptions = restaurants[srchIndex]
+    restaurantOption = random.randrange(0,len(restaurantOptions),1)
+    theRestaurantOption = restaurantOptions[restaurantOption]
+
+    acceptableRestaurant = False
+    question = input(f"Your picked restaurant for the day is {theRestaurantOption}. Is this okay? yes/no ")
+
+    while acceptableRestaurant == False:
+        if question == 'yes':
+            print(f"Perfect! Enjoy eating at {theRestaurantOption}!")
+            return theRestaurantOption
+        elif question == 'no':
+            restaurantOptions.remove(theRestaurantOption)
+            srchIndex = random.randrange(0,len(restaurantOptions),1)
+            theRestaurantOption = restaurantOptions[srchIndex]
+            question = input(f"How about eating at {theRestaurantOption}? yes/no ")
+        else:
+            print("Invalid Response. Try again,")
+
+        
+
+tripLocation = pickedLocation()
+tripTransportation = pickedTransportation()
+tripEntertainment = pickedEntertainment(tripLocation)
+tripRestaurant = pickedRestaurant(tripLocation)
